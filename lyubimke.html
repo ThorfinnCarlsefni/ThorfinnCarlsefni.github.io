@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Машенька, ты как суши! 🍣💕</title>
+    <!-- Подключаем красивые шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #1a0b1a 0%, #2d1b2d 50%, #4a234a 100%);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Контейнер для фона с сердечками */
+        .hearts-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.5;
+            color: #ff99cc;
+            filter: drop-shadow(0 0 10px rgba(255, 51, 102, 0.2));
+            animation: floatHeart linear infinite;
+            user-select: none;
+            white-space: nowrap;
+        }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.6;
+            }
+            80% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Основной контейнер */
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 40px;
+            padding: 30px 20px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+                0 0 30px rgba(255, 51, 102, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Дата */
+        .date {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+        }
+        
+        /* Главное украшение - просто красивое сердце */
+        .main-heart {
+            text-align: center;
+            font-size: clamp(5rem, 20vw, 8rem);
+            filter: drop-shadow(0 0 30px #ff3366);
+            margin: 10px 0 20px;
+            animation: softPulse 3s ease-in-out infinite;
+            line-height: 1;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        
+        .main-heart:active {
+            transform: scale(0.95);
+        }
+        
+        @keyframes softPulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 0 30px #ff3366);
+            }
+            50% { 
+                transform: scale(1.05);
+                filter: drop-shadow(0 0 50px #ff99cc);
+            }
+        }
+        
+        /* Имя МАША */
+        .name-title {
+            text-align: center;
+            margin: 20px 0 25px;
+        }
+        
+        .name-title span {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(3.5rem, 15vw, 5.5rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffb6c1, #ff69b4, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(255, 105, 180, 0.5);
+            display: inline-block;
+            letter-spacing: 8px;
+        }
+        
+        /* Основное сообщение */
+        .love-message {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 35px;
+            padding: 25px 15px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .greeting {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+        
+        .name-highlight {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2rem, 7vw, 2.5rem);
+            color: #ffb6c1;
+            display: block;
+            margin: 8px 0 20px;
+            text-shadow: 0 0 15px #ff69b4;
+        }
+        
+        /* Комплименты с суши */
+        .sushi-compliments {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 15px 0;
+            padding: 5px;
+        }
+        
+        .compliment-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 12px 0;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 50px;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .compliment-item:hover {
+            background: rgba(255, 105, 180, 0.1);
+            border-color: rgba(255, 105, 180, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .compliment-emoji {
+            font-size: 1.8rem;
+            min-width: 45px;
+            text-align: center;
+            filter: drop-shadow(0 0 8px #ff99cc);
+        }
+        
+        .compliment-text {
+            text-align: left;
+        }
+        
+        .compliment-text strong {
+            color: #ffb6c1;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2rem;
+            margin-right: 5px;
+        }
+        
+        /* Контейнер для скрытого сообщения */
+        .hidden-message-container {
+            text-align: center;
+            margin: 15px 0 10px;
+            min-height: 60px;
+            position: relative;
+        }
+        
+        .secret-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2rem, 8vw, 3rem);
+            background: linear-gradient(135deg, #ff69b4, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.7);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 20px #ff1493);
+            display: inline-block;
+            white-space: nowrap;
+        }
+        
+        .secret-message.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .secret-message span {
+            display: inline-block;
+            animation: wiggleMessage 0.5s ease-in-out;
+        }
+        
+        @keyframes wiggleMessage {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        
+        /* Кнопка */
+        .magic-button {
+            text-align: center;
+            margin: 20px 0 15px;
+        }
+        
+        .magic-btn {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            border: none;
+            color: white;
+            padding: 14px 35px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 20px rgba(255, 20, 147, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .magic-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 20, 147, 0.6);
+        }
+        
+        .magic-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Подпись */
+        .signature {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .signature p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .signature-name {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2rem, 7vw, 2.5rem);
+            background: linear-gradient(135deg, #ffb6c1, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            padding: 0 10px;
+            position: relative;
+        }
+        
+        .signature-name::before,
+        .signature-name::after {
+            content: "🍣";
+            font-size: 1.3rem;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.6;
+        }
+        
+        .signature-name::before {
+            left: -20px;
+        }
+        
+        .signature-name::after {
+            right: -20px;
+        }
+        
+        .footer-hearts {
+            margin-top: 12px;
+            font-size: 1.3rem;
+            letter-spacing: 5px;
+            opacity: 0.7;
+        }
+        
+        /* Адаптация */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .compliment-item {
+                padding: 6px 10px;
+            }
+            
+            .compliment-emoji {
+                font-size: 1.5rem;
+                min-width: 40px;
+            }
+            
+            .signature-name::before,
+            .signature-name::after {
+                display: none;
+            }
+            
+            .secret-message {
+                white-space: normal;
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-background" id="heartsBackground"></div>
+    
+    <div class="container">
+        <div class="date">
+            ♥ 14 февраля 2026 ♥
+        </div>
+        
+        <!-- Просто красивое пульсирующее сердце -->
+        <div class="main-heart" onclick="toggleHeartPulse()">
+            ❤️
+        </div>
+        
+        <!-- Имя МАША -->
+        <div class="name-title">
+            <span>МАША</span>
+        </div>
+        
+        <!-- Основное сообщение -->
+        <div class="love-message">
+            <div class="greeting">
+                С Днём всех влюблённых,
+            </div>
+            <div class="name-highlight">
+                моя нежная Машенька!
+            </div>
+            
+            <!-- Комплименты с суши -->
+            <div class="sushi-compliments">
+                <div class="compliment-item">
+                    <div class="compliment-emoji">🍣</div>
+                    <div class="compliment-text">
+                        <strong>Как идеальный ролл</strong> — в тебе всё идеально сочетается
+                    </div>
+                </div>
+                
+                <div class="compliment-item">
+                    <div class="compliment-emoji">🍱</div>
+                    <div class="compliment-text">
+                        <strong>Как самый дорогой сет</strong> — ты редкая и особенная
+                    </div>
+                </div>
+                
+                <div class="compliment-item">
+                    <div class="compliment-emoji">🥢</div>
+                    <div class="compliment-text">
+                        <strong>Как васаби</strong> — ты добавляешь остроты в мою жизнь
+                    </div>
+                </div>
+                
+                <div class="compliment-item">
+                    <div class="compliment-emoji">🍚</div>
+                    <div class="compliment-text">
+                        <strong>Как идеальный рис</strong> — без тебя всё рассыпается
+                    </div>
+                </div>
+                
+                <div class="compliment-item">
+                    <div class="compliment-emoji">🫚</div>
+                    <div class="compliment-text">
+                        <strong>Как маринованный имбирь</strong> — освежаешь мои чувства
+                    </div>
+                </div>
+            </div>
+            
+            <div style="color: rgba(255, 255, 255, 0.8); font-family: 'Playfair Display'; margin-top: 15px; font-size: 1rem;">
+                Ты вкуснее любых суши, Маша! 🍣
+            </div>
+        </div>
+        
+        <!-- Контейнер для скрытого сообщения -->
+        <div class="hidden-message-container">
+            <div class="secret-message" id="secretMessage">
+                Я б тебя съел) 😏🍣
+            </div>
+        </div>
+        
+        <!-- Кнопка для вызова сообщения -->
+        <div class="magic-button">
+            <button class="magic-btn" onclick="showSecretMessage()">
+                Нажми 🍣
+            </button>
+        </div>
+        
+        <!-- Подпись -->
+        <div class="signature">
+            <p>С любовью,</p>
+            <div class="signature-name">
+                Твой Рамзанчик
+            </div>
+            <div class="footer-hearts">
+                💕 🍣 💕
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Создание летающих элементов на фоне
+        function createFloatingElements() {
+            const background = document.getElementById('heartsBackground');
+            const items = ['❤️', '🍣', '💕', '🌸', '💖', '🍱', '💗', '✨'];
+            
+            setInterval(() => {
+                const element = document.createElement('div');
+                element.className = 'floating-heart';
+                element.innerHTML = items[Math.floor(Math.random() * items.length)];
+                
+                const size = Math.random() * 20 + 12;
+                element.style.fontSize = size + 'px';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.animationDuration = (Math.random() * 8 + 6) + 's';
+                element.style.animationDelay = Math.random() * 5 + 's';
+                
+                background.appendChild(element);
+                
+                setTimeout(() => {
+                    element.remove();
+                }, 14000);
+            }, 400);
+        }
+        
+        // Функция для показа скрытого сообщения
+        function showSecretMessage() {
+            const message = document.getElementById('secretMessage');
+            
+            // Добавляем класс для анимации
+            message.classList.add('show');
+            
+            // Добавляем эффект на кнопку
+            const btn = document.querySelector('.magic-btn');
+            btn.style.transform = 'scale(0.95)';
+            btn.style.background = 'linear-gradient(135deg, #ff1493, #ff69b4)';
+            
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+                btn.style.background = 'linear-gradient(135deg, #ff69b4, #ff1493)';
+            }, 200);
+            
+            // Добавляем подсветку на сердце
+            const mainHeart = document.querySelector('.main-heart');
+            mainHeart.style.filter = 'drop-shadow(0 0 50px #ff1493)';
+            mainHeart.style.transform = 'scale(1.1)';
+            
+            setTimeout(() => {
+                mainHeart.style.filter = '';
+                mainHeart.style.transform = '';
+            }, 500);
+            
+            // Добавляем эффект на все комплименты
+            const compliments = document.querySelectorAll('.compliment-item');
+            compliments.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.background = 'rgba(255, 20, 147, 0.2)';
+                    item.style.borderColor = '#ff1493';
+                    
+                    setTimeout(() => {
+                        item.style.background = '';
+                        item.style.borderColor = '';
+                    }, 300);
+                }, index * 100);
+            });
+            
+            // Каждое нажатие добавляет небольшую анимацию на сообщение
+            message.style.animation = 'none';
+            message.offsetHeight;
+            message.style.animation = 'wiggleMessage 0.5s ease-in-out';
+            
+            // Автоматически скрываем через 3 секунды?
+            // Если хотите, чтобы сообщение исчезало, раскомментируйте:
+            // setTimeout(() => {
+            //     message.classList.remove('show');
+            // }, 3000);
+        }
+        
+        // Функция для сердца при клике
+        function toggleHeartPulse() {
+            const heart = document.querySelector('.main-heart');
+            heart.style.animation = 'none';
+            heart.offsetHeight;
+            heart.style.animation = 'softPulse 3s ease-in-out infinite';
+        }
+        
+        // Запускаем всё при загрузке
+        window.addEventListener('load', () => {
+            createFloatingElements();
+            
+            // Можно показать сообщение при загрузке? Нет, оставим скрытым
+            // document.getElementById('secretMessage').classList.remove('show');
+        });
+    </script>
+</body>
+</html>
